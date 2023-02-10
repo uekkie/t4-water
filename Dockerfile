@@ -6,6 +6,7 @@ COPY package.json yarn.lock ./
 RUN yarn
 
 COPY . .
+RUN yarn install
 
 EXPOSE 8080
 
@@ -14,4 +15,4 @@ ENV PORT=8080
 
 RUN yarn build
 
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "preview" ]
