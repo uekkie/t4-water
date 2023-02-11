@@ -14,8 +14,16 @@
         </div>
       </div>
       <!-- 中央ブロック -->
-      <div class="my-4 grid place-items-center grid-cols-1 gap-4">
-        <div v-if="gaming">
+      <div v-if="gaming" class="my-4 grid place-items-center grid-cols-1 gap-4">
+        <div class="relative">
+          <div class="absolute top-[30%] left-[105%] w-80 h-80">
+            <div v-if="collected">
+              <div class="text-7xl">🙆🏻 正解！</div>
+            </div>
+            <div v-if="collected === false">
+              <div class="text-7xl">🙅🏻 残念〜</div>
+            </div>
+          </div>
           <div class="max-w-sm border rounded-lg shadow bg-green-800 border-green-700">
             <div class="p-5">
               <div v-if="selectTxt">
@@ -41,26 +49,26 @@
           </div>
           <div>{{ game.seconds }}</div>
         </div>
-        <div v-else class="h-80 p-4 text-4xl">
-          🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉<br />
-          {{ game.name }}さんのスコア<br />
-          <div>
-            <span class="text-5xl">
-              {{ game.cardNumber }}
-            </span>
-            <span class="text-3xl text-gray-600"> 名水</span>：<span class="text-5xl">{{ game.seconds }}</span>
-            <span class="text-3xl text-gray-600"> 秒 </span>
-          </div>
-          🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
-          <div>
-            <button
-              @click="() => replay()"
-              type="button"
-              class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-            >
-              再JACKする
-            </button>
-          </div>
+      </div>
+      <div v-else class="h-80 p-4 text-4xl">
+        🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉<br />
+        {{ game.name }}さんのスコア<br />
+        <div>
+          <span class="text-5xl">
+            {{ game.cardNumber }}
+          </span>
+          <span class="text-3xl text-gray-600"> 名水</span>：<span class="text-5xl">{{ game.seconds }}</span>
+          <span class="text-3xl text-gray-600"> 秒 </span>
+        </div>
+        🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉
+        <div>
+          <button
+            @click="() => replay()"
+            type="button"
+            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+          >
+            再JACKする
+          </button>
         </div>
       </div>
 
@@ -204,8 +212,6 @@ const shuffle = (array: Card[]) => {
   return array
 }
 
-console.log('start 1')
-
 const cards = ref(
   CARDS_MASTER.map((card: any, index: number) => {
     return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
@@ -218,6 +224,7 @@ const collectIds = ref<number[]>([])
 
 const timerId = ref<number>()
 const gaming = ref(false)
+const collected = ref<boolean>()
 const gameStart = () => {
   console.log('start 2')
 
@@ -244,10 +251,15 @@ const collect = () => {
   if (!selectImgId.value || !selectTxtId.value) {
     return
   }
+  collected.value = selectImgId.value === selectTxtId.value
   if (selectImgId.value === selectTxtId.value) {
     collectIds.value.push(selectImgId.value)
   }
-  selectImgId.value = selectTxtId.value = undefined
+
+  window.setTimeout(() => {
+    collected.value = undefined
+    selectImgId.value = selectTxtId.value = undefined
+  }, 2000)
 }
 const result = () => {
   if (collectIds.value.length < game.value.cardNumber) {
