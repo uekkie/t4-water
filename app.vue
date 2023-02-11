@@ -21,6 +21,6 @@
   </div>
 </template>
 <script setup lang="ts">
-const start = ref(true)
+const start = ref(false)
 const userName = ref('ななしの名水')
 </script>
