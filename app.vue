@@ -1,10 +1,8 @@
 <template>
-  <div class="bg-gray-100 h-full dark:bg-gray-800 p-10">
-    <div class="bg-gray-100 dark:bg-gray-800">
-      <h1
-        class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white"
-      >
-        神経<span class="text-blue-400 text-7xl">水</span>JACK<span class="text-blue-400">！！</span>
+  <div class="bg-gray-100 h-full p-10">
+    <div>
+      <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-700 md:text-5xl lg:text-6xl">
+        神経<span class="text-blue-600 text-7xl">水</span>JACK<span class="text-blue-600">！！</span>
       </h1>
       <div v-if="!start">
         <div class="text-7xl text-center my-5 text-gray-600">名水探しに行きませんか？</div>
@@ -18,7 +16,7 @@
           JACK開始！
         </button>
       </div>
-      <game v-if="start" :name="userName" :card-number="12" />
+      <game v-if="start" :name="userName" :card-number="6" />
     </div>
   </div>
 </template>
