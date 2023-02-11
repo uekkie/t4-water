@@ -80,8 +80,7 @@
   </div>
 </template>
 <script setup lang="ts">
-// import { CARDS_MASTER, baseUrl } from '../master'
-import { sampleSize, shuffle } from 'lodash'
+console.log('start 0')
 
 const baseUrl = 'https://water-pub.env.go.jp/water-pub/contents/meisui/image'
 const CARDS_MASTER = [
@@ -90,14 +89,6 @@ const CARDS_MASTER = [
     category: '河川',
     place: '高知県県西部',
     name: '四万十川（しまんとがわ）',
-    description:
-      '流域面積の85％が森林で、人工改変度が小さい。中流域は流れが激しい蛇行を繰り返し、それは多くの瀬や淵を作り、豊かな自然景観が残る。天然アユの漁場としても名高く、火を振りながら追い込む火振り漁は独特のものである。',
-  },
-  {
-    url: '/120071129161225/w001m.jpg',
-    category: '河川',
-    place: '高知県県西部',
-    name: '羊蹄のふきだし湧水（ようていのふきだしゆうすい）',
     description:
       '流域面積の85％が森林で、人工改変度が小さい。中流域は流れが激しい蛇行を繰り返し、それは多くの瀬や淵を作り、豊かな自然景観が残る。天然アユの漁場としても名高く、火を振りながら追い込む火振り漁は独特のものである。',
   },
@@ -204,13 +195,21 @@ const selectImgId = ref<number>()
 const selectTxtId = ref<number>()
 const selectImg = computed(() => imgCards.value.find(({ id }) => id === selectImgId.value)?.url)
 const selectTxt = computed(() => txtCards.value.find(({ id }) => id === selectTxtId.value))
+
+const shuffle = (array: Card[]) => {
+  for (let i = array.length - 1; i >= 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+  return array
+}
+
+console.log('start 1')
+
 const cards = ref(
-  sampleSize(
-    CARDS_MASTER.map((card: any, index: number) => {
-      return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
-    }) as Card[],
-    game.value.cardNumber
-  )
+  CARDS_MASTER.map((card: any, index: number) => {
+    return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
+  }) as Card[]
 )
 const txtCards = ref<Card[]>([])
 const imgCards = ref<Card[]>([])
@@ -220,10 +219,13 @@ const collectIds = ref<number[]>([])
 const timerId = ref<number>()
 const gaming = ref(false)
 const gameStart = () => {
+  console.log('start 2')
+
   gaming.value = true
   txtCards.value = shuffle(cards.value)
   imgCards.value = shuffle(cards.value)
   timer(true)
+  console.log('start 3')
 }
 const gameOver = () => {
   timer(false)
@@ -266,12 +268,9 @@ const handleClickImage = (card: Card) => {
 const replay = () => {
   collectIds.value = []
   game.value = { name: props.name!, cardNumber: props.cardNumber!, seconds: 0 }
-  cards.value = sampleSize(
-    CARDS_MASTER.map((card: any, index: number) => {
-      return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
-    }) as Card[],
-    game.value.cardNumber
-  )
+  cards.value = CARDS_MASTER.map((card: any, index: number) => {
+    return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
+  }) as Card[]
   txtCards.value = shuffle(cards.value)
   imgCards.value = shuffle(cards.value)
   gameStart()
