@@ -81,7 +81,7 @@
 </template>
 <script setup lang="ts">
 // import { CARDS_MASTER, baseUrl } from '../master'
-import { sampleSize, shuffle } from 'lodash'
+// import { sampleSize, shuffle } from 'lodash'
 export type Game = { seconds: number; cardNumber: number; name: string }
 
 const props = defineProps({
@@ -109,12 +109,12 @@ const imgCards = ref<Card[]>([])
 
 const collectIds = ref<number[]>([])
 
-const timerId = ref<NodeJS.Timer>()
+// const timerId = ref<NodeJS.Timer>()
 const gaming = ref(false)
 const gameStart = () => {
   gaming.value = true
-  txtCards.value = shuffle(cards.value)
-  imgCards.value = shuffle(cards.value)
+  // txtCards.value = shuffle(cards.value)
+  // imgCards.value = shuffle(cards.value)
   timer(true)
 }
 const gameOver = () => {
@@ -122,13 +122,13 @@ const gameOver = () => {
   gaming.value = false
 }
 const timer = (start: boolean) => {
-  if (start) {
-    timerId.value = setInterval(() => {
-      game.value.seconds++
-    }, 1000)
-  } else {
-    clearInterval(timerId.value!)
-  }
+  // if (start) {
+  //   timerId.value = setInterval(() => {
+  //     game.value.seconds++
+  //   }, 1000)
+  // } else {
+  //   clearInterval(timerId.value!)
+  // }
 }
 const collect = () => {
   if (!selectImgId.value || !selectTxtId.value) {
@@ -164,8 +164,8 @@ const replay = () => {
   //   }) as Card[],
   //   game.value.cardNumber
   // )
-  txtCards.value = shuffle(cards.value)
-  imgCards.value = shuffle(cards.value)
+  // txtCards.value = shuffle(cards.value)
+  // imgCards.value = shuffle(cards.value)
   gameStart()
 }
 
