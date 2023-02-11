@@ -18,7 +18,7 @@
           JACK開始！
         </button>
       </div>
-      <!-- <game v-if="start" :name="userName" :card-number="12" /> -->
+      <game v-if="start" :name="userName" :card-number="12" />
     </div>
   </div>
 </template>

@@ -80,7 +80,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { CARDS_MASTER, baseUrl } from '../master'
+// import { CARDS_MASTER, baseUrl } from '../master'
 import { sampleSize, shuffle } from 'lodash'
 export type Game = { seconds: number; cardNumber: number; name: string }
 
@@ -96,12 +96,13 @@ const selectTxtId = ref<number>()
 const selectImg = computed(() => imgCards.value.find(({ id }) => id === selectImgId.value)?.url)
 const selectTxt = computed(() => txtCards.value.find(({ id }) => id === selectTxtId.value))
 const cards = ref(
-  sampleSize(
-    CARDS_MASTER.map((card: any, index: number) => {
-      return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
-    }) as Card[],
-    game.value.cardNumber
-  )
+  []
+  // sampleSize(
+  //   CARDS_MASTER.map((card: any, index: number) => {
+  //     return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
+  //   }) as Card[],
+  //   game.value.cardNumber
+  // )
 )
 const txtCards = ref<Card[]>([])
 const imgCards = ref<Card[]>([])
@@ -157,12 +158,12 @@ const handleClickImage = (card: Card) => {
 const replay = () => {
   collectIds.value = []
   game.value = { name: props.name!, cardNumber: props.cardNumber!, seconds: 0 }
-  cards.value = sampleSize(
-    CARDS_MASTER.map((card: any, index: number) => {
-      return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
-    }) as Card[],
-    game.value.cardNumber
-  )
+  // cards.value = sampleSize(
+  //   CARDS_MASTER.map((card: any, index: number) => {
+  //     return { ...card, url: baseUrl + card.url, id: index + 1 } as Card
+  //   }) as Card[],
+  //   game.value.cardNumber
+  // )
   txtCards.value = shuffle(cards.value)
   imgCards.value = shuffle(cards.value)
   gameStart()
